@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation_graphe"
+    app:startDestination="@id/appsListFragment">
+
+    <fragment
+        android:id="@+id/appsListFragment"
+        android:name="com.example.appinsight.applicationsList.ui.AppsListFragment"
+        android:label="AppsListFragment" >
+        <action
+            android:id="@+id/action_appsListFragment_to_appInfoFragment"
+            app:destination="@id/appInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appInfoFragment"
+        android:name="com.example.appinsight.applicationInfo.ui.AppInfoFragment"
+        android:label="AppInfoFragment" />
+</navigation>

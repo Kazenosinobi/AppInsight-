@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import com.example.appinsight.applicationInfo.ui.screens.AppInfoScreen
 import com.example.appinsight.main.ui.theme.ProjectTheme
 
 class AppInfoFragment : Fragment() {
