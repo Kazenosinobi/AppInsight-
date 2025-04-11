@@ -12,7 +12,7 @@ class AppInfoViewModel(
     private val interactor: AppInfoInteractor,
     private val packageName: String,
 ) : ViewModel() {
-    private val appInfoState = MutableStateFlow(AppInfoState.Init as AppInfoState)
+    private val appInfoState: MutableStateFlow<AppInfoState> = MutableStateFlow(AppInfoState.Init)
     fun getAppInfoState() = appInfoState.asStateFlow()
 
     fun loadAppInfo() {

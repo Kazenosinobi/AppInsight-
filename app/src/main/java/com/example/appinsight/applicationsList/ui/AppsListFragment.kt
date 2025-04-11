@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.appinsight.applicationsList.ui.screens.AppsListScreen
 import com.example.appinsight.main.ui.theme.ProjectTheme
 
@@ -20,13 +21,10 @@ class AppsListFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 ProjectTheme {
-                    AppsListScreen()
+                    val navController = findNavController()
+                    AppsListScreen(navController)
                 }
             }
         }
-    }
-
-    companion object {
-        fun newInstance() = AppsListFragment()
     }
 }

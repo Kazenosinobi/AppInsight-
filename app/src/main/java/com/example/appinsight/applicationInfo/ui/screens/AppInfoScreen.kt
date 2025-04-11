@@ -9,10 +9,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.appinsight.applicationInfo.ui.AppInfoViewModel
 import com.example.appinsight.applicationInfo.ui.models.AppInfoState
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun AppInfoScreen() {
-    val viewModel: AppInfoViewModel = koinViewModel()
+fun AppInfoScreen(packageName: String) {
+    val viewModel: AppInfoViewModel = koinViewModel{ parametersOf(packageName) }
     val viewState = viewModel.getAppInfoState().collectAsStateWithLifecycle()
     Surface(
         modifier = Modifier.fillMaxSize(),

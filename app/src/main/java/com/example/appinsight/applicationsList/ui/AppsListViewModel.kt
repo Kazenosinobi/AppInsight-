@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class AppsListViewModel(
     private val interactor: AppsInteractor
 ) : ViewModel() {
-    private val appItemState = MutableStateFlow(AppsListState.Init as AppsListState)
+    private val appItemState: MutableStateFlow<AppsListState> = MutableStateFlow(AppsListState.Init)
     fun getAppItemState() = appItemState.asStateFlow()
 
     fun loadAppsList() {

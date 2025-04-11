@@ -5,9 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
 import com.example.appinsight.R
-import com.example.appinsight.applicationsList.ui.AppsListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,10 +20,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.fragment_container, AppsListFragment.newInstance())
-            }
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+            val navController = navHostFragment.navController
+            navController.navigate(R.id.appsListFragment)
         }
     }
 }
