@@ -13,6 +13,10 @@ class AppsListViewModel(
 ) : ViewModel() {
     private val appItemState: MutableStateFlow<AppsListState> = MutableStateFlow(AppsListState.Init)
 
+    init {
+        loadAppsList()
+    }
+
     fun getAppItemState() = appItemState.asStateFlow()
 
     fun loadAppsList() {

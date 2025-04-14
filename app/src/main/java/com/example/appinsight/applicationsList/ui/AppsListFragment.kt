@@ -12,6 +12,7 @@ import com.example.appinsight.applicationsList.ui.screens.AppsListScreen
 import com.example.appinsight.core.ui.theme.ProjectTheme
 
 class AppsListFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

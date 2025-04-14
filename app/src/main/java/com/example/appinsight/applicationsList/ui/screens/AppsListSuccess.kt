@@ -38,7 +38,7 @@ fun AppsListSuccess(
 
 @Composable
 @Preview(showBackground = true)
-fun AppListSuccessPreview() {
+private fun AppListSuccessPreview() {
     ProjectTheme {
         AppsListSuccess(
             apps = listOf(

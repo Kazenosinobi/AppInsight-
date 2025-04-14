@@ -14,6 +14,10 @@ class AppInfoViewModel(
 ) : ViewModel() {
     private val appInfoState: MutableStateFlow<AppInfoState> = MutableStateFlow(AppInfoState.Init)
 
+    init {
+        loadAppInfo()
+    }
+
     fun getAppInfoState() = appInfoState.asStateFlow()
 
     fun loadAppInfo() {

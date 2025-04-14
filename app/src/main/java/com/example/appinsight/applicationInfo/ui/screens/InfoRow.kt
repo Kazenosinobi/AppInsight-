@@ -54,7 +54,7 @@ private fun InfoRowPreview() {
 
 @Composable
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun InfoRowPreviewDark() {
+private fun InfoRowPreviewDark() {
     ProjectTheme {
         InfoRow(
             title = "Title",

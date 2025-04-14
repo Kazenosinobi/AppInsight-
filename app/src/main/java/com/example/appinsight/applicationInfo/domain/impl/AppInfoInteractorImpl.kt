@@ -10,5 +10,4 @@ class AppInfoInteractorImpl(
     override fun getAppInfo(packageName: String): AppInfo? {
         return repository.getAppInfo(packageName)
     }
-
 }

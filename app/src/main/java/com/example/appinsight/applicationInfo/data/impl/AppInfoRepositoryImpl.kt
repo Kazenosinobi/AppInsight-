@@ -10,9 +10,7 @@ import java.io.FileInputStream
 import java.security.MessageDigest
 
 class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInfoRepository {
-    override fun getAppInfo(packageName: String): AppInfo? {
-
-        return runCatching {
+    override fun getAppInfo(packageName: String): AppInfo? = runCatching {
             val appInfo = getApplicationInfo(packageName)
 
             val packageInfo = getPackageInfo(packageName)
@@ -30,8 +28,7 @@ class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInf
                 sha256 = sha256,
                 icon = icon
             )
-        }.getOrNull()
-    }
+    }.getOrNull()
 
     private fun getPackageInfo(packageName: String): PackageInfo? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -53,8 +50,7 @@ class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInf
             packageManager.getApplicationInfo(packageName, 0)
         }
 
-    private fun calculateApkSha256(file: File): String? {
-        return runCatching {
+    private fun calculateApkSha256(file: File): String? = runCatching {
             val digest = MessageDigest.getInstance(SHA_256)
             FileInputStream(file).use { fis ->
                 val buffer = ByteArray(BUFFER_CAPACITY)
@@ -64,8 +60,7 @@ class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInf
                 }
             }
             digest.digest().joinToString("") { "%02x".format(it) }
-        }.getOrNull()
-    }
+    }.getOrNull()
 
     private companion object {
         private const val SHA_256 = "SHA-256"

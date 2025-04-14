@@ -51,10 +51,9 @@ fun AppInfoScreen(
                 when (state) {
                     AppInfoState.Error -> ErrorView(
                         text = stringResource(R.string.app_info_screen_error),
-                        onRetry = { viewModel.loadAppInfo() }
+                        onRetry = viewModel::loadAppInfo
                     )
 
-                    AppInfoState.Init -> viewModel.loadAppInfo()
                     AppInfoState.Loading -> LoadingView(
                         text = stringResource(R.string.app_info_screen_loading)
                     )
@@ -62,6 +61,8 @@ fun AppInfoScreen(
                     is AppInfoState.Success -> AppInfoSuccess(
                         appInfo = (viewState.value as AppInfoState.Success).appInfo,
                     )
+
+                    AppInfoState.Init -> Unit
                 }
             }
         }

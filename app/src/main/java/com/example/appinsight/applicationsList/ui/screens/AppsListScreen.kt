@@ -1,5 +1,6 @@
 package com.example.appinsight.applicationsList.ui.screens
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,6 @@ fun AppsListScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
-
     val viewModel: AppsListViewModel = koinViewModel()
     val viewState = viewModel.getAppItemState().collectAsStateWithLifecycle()
     Surface(
@@ -45,27 +45,30 @@ fun AppsListScreen(
                 modifier = Modifier.statusBarHeightEdgeToEdge(),
                 text = stringResource(R.string.apps_screen_name),
             )
-            when (viewState.value) {
-                is AppsListState.Init -> viewModel.loadAppsList()
-                AppsListState.Error -> ErrorView(
-                    text = stringResource(R.string.apps_screen_error),
-                    onRetry = { viewModel.loadAppsList() }
-                )
-
-                AppsListState.Loading -> LoadingView(
-                    text = stringResource(R.string.apps_screen_loading)
-                )
-
-                is AppsListState.Success -> {
-                    AppsListSuccess(
-                        apps = (viewState.value as AppsListState.Success).appItem,
-                        onClick = { app ->
-                            navController.navigate(
-                                R.id.action_appsListFragment_to_appInfoFragment,
-                                AppInfoFragment.createArgs(app.packageName)
-                            )
-                        }
+            AnimatedContent(targetState = viewState) { state ->
+                when (state.value) {
+                    AppsListState.Error -> ErrorView(
+                        text = stringResource(R.string.apps_screen_error),
+                        onRetry = viewModel::loadAppsList
                     )
+
+                    AppsListState.Loading -> LoadingView(
+                        text = stringResource(R.string.apps_screen_loading)
+                    )
+
+                    is AppsListState.Success -> {
+                        AppsListSuccess(
+                            apps = (viewState.value as AppsListState.Success).appItem,
+                            onClick = { app ->
+                                navController.navigate(
+                                    R.id.action_appsListFragment_to_appInfoFragment,
+                                    AppInfoFragment.createArgs(app.packageName)
+                                )
+                            }
+                        )
+                    }
+
+                    AppsListState.Init -> Unit
                 }
             }
         }
