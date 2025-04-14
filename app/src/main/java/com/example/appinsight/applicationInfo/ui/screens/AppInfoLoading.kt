@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,8 +21,15 @@ fun LoadingView() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(
+            modifier = Modifier.size(64.dp),
+            strokeWidth = 4.dp,
+            color = MaterialTheme.colorScheme.surface,
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Loading app...")
+        Text(
+            text = "Loading app...",
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

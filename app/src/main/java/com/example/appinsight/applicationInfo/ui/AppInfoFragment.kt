@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.appinsight.applicationInfo.ui.screens.AppInfoScreen
 import com.example.appinsight.main.ui.theme.ProjectTheme
 
@@ -21,8 +22,9 @@ class AppInfoFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 ProjectTheme {
+                    val navController = findNavController()
                     val packageName = arguments?.getString(EXTRA_PACKAGE_NAME).orEmpty()
-                    AppInfoScreen(packageName)
+                    AppInfoScreen(packageName, navController)
                 }
             }
         }

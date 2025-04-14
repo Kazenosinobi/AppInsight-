@@ -57,6 +57,12 @@ val Typography = Typography(
         fontSize = 19.sp,
         lineHeight = 23.sp
     ),
+    titleLarge = TextStyle(
+        fontFamily = PlayMakerFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 23.sp
+    ),
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,

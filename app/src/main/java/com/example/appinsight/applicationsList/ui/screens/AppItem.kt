@@ -16,10 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.example.appinsight.R
 import com.example.appinsight.applicationsList.domain.models.AppItem
+import com.example.appinsight.main.ui.theme.ProjectTheme
 
 @Composable
 fun AppItemView(
@@ -54,13 +56,28 @@ fun AppItemView(
         Column {
             Text(
                 text = app.appName,
-                style = MaterialTheme.typography.displayMedium
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.primary
             )
             Text(
                 text = app.packageName,
                 style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
             )
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun AppItemViewPreview() {
+    ProjectTheme {
+        AppItemView(
+            app = AppItem(
+                appName = "Google Maps",
+                packageName = "com.google.android.apps.maps",
+            ),
+            onClick = {}
+        )
     }
 }

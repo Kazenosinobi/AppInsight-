@@ -20,7 +20,7 @@ fun AppsListScreen(navController: NavController) {
     val viewState = viewModel.getAppItemState().collectAsStateWithLifecycle()
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.background
     ) {
         when (viewState.value) {
             is AppsListState.Init -> viewModel.loadAppsList()

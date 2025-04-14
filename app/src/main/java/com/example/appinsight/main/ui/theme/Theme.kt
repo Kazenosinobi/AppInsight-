@@ -20,20 +20,20 @@ private val DarkColorScheme = darkColorScheme(
     onPrimaryContainer = DarkGrey,
     onSecondaryContainer = DarkGrey,
     surface = Blue,
-    tertiary = DeepWhite,
+    tertiary = LightGrey,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = DarkGrey,
     secondary = LightGrey,
     onPrimary = LightGrey,
-    primaryContainer = White,
+    primaryContainer = DarkGrey,
     secondaryContainer = DarkGrey,
     background = DeepWhite,
     onPrimaryContainer = DarkGrey,
     onSecondaryContainer = DeepWhite,
     surface = Blue,
-    tertiary = LightGrey,
+    tertiary = White,
 )
 
 @Composable
