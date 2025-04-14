@@ -12,16 +12,17 @@ class AppsListViewModel(
     private val interactor: AppsInteractor
 ) : ViewModel() {
     private val appItemState: MutableStateFlow<AppsListState> = MutableStateFlow(AppsListState.Init)
+
     fun getAppItemState() = appItemState.asStateFlow()
 
     fun loadAppsList() {
         viewModelScope.launch {
             appItemState.emit(AppsListState.Loading)
-            try {
-                val appsList = interactor.getInstallApps()
-                appItemState.emit(AppsListState.Success(appsList))
-            } catch (e: Exception) {
+            val appsList = interactor.getInstallApps()
+            if (appsList.isEmpty()) {
                 appItemState.emit(AppsListState.Error)
+            } else {
+                appItemState.emit(AppsListState.Success(appsList))
             }
         }
     }

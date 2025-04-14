@@ -1,7 +1,6 @@
 package com.example.appinsight.applicationsList.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,27 +11,32 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.example.appinsight.R
 import com.example.appinsight.applicationsList.domain.models.AppItem
-import com.example.appinsight.main.ui.theme.ProjectTheme
+import com.example.appinsight.core.ui.theme.ProjectTheme
+import com.example.appinsight.utils.clickableWithDebounce
 
+@NonRestartableComposable
 @Composable
 fun AppItemView(
+    modifier: Modifier = Modifier,
     app: AppItem,
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable(
+            .clickableWithDebounce(
                 onClick = onClick
             ),
         verticalAlignment = Alignment.CenterVertically
@@ -40,13 +44,13 @@ fun AppItemView(
         if (app.icon != null) {
             Image(
                 bitmap = app.icon.toBitmap().asImageBitmap(),
-                contentDescription = "App icon",
+                contentDescription = stringResource(R.string.app_icon_description),
                 modifier = Modifier.size(48.dp)
             )
         } else {
             Image(
                 painter = painterResource(id = R.drawable.placeholder),
-                contentDescription = "Default app icon",
+                contentDescription = stringResource(R.string.placeholder_description),
                 modifier = Modifier.size(48.dp)
             )
         }
@@ -70,7 +74,7 @@ fun AppItemView(
 
 @Composable
 @Preview(showBackground = true)
-fun AppItemViewPreview() {
+private fun AppItemViewPreview() {
     ProjectTheme {
         AppItemView(
             app = AppItem(

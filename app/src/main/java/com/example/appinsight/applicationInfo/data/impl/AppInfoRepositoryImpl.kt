@@ -1,5 +1,6 @@
 package com.example.appinsight.applicationInfo.data.impl
 
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import com.example.appinsight.applicationInfo.domain.api.AppInfoRepository
@@ -9,31 +10,17 @@ import java.io.FileInputStream
 import java.security.MessageDigest
 
 class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInfoRepository {
-    override fun getAppInfo(packageName: String): AppInfo {
+    override fun getAppInfo(packageName: String): AppInfo? {
 
-        return try {
-            val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getApplicationInfo(
-                    packageName,
-                    PackageManager.ApplicationInfoFlags.of(0)
-                )
-            } else {
-                packageManager.getApplicationInfo(packageName, 0)
-            }
+        return runCatching {
+            val appInfo = getApplicationInfo(packageName)
 
-            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getPackageInfo(
-                    packageName,
-                    PackageManager.PackageInfoFlags.of(0)
-                )
-            } else {
-                packageManager.getPackageInfo(packageName, 0)
-            }
+            val packageInfo = getPackageInfo(packageName)
 
             val appName = packageManager.getApplicationLabel(appInfo).toString()
-            val version = packageInfo.versionName ?: "N/A"
+            val version = packageInfo?.versionName.orEmpty()
             val apkFile = File(appInfo.sourceDir)
-            val sha256 = calculateApkSha256(apkFile)
+            val sha256 = calculateApkSha256(apkFile).orEmpty()
             val icon = packageManager.getApplicationIcon(appInfo)
 
             AppInfo(
@@ -43,24 +30,45 @@ class AppInfoRepositoryImpl(private val packageManager: PackageManager) : AppInf
                 sha256 = sha256,
                 icon = icon
             )
-        } catch (e: Exception) {
-            throw RuntimeException("Failed to get app info", e)
-        }
+        }.getOrNull()
     }
 
-    private fun calculateApkSha256(file: File): String {
-        return try {
-            val digest = MessageDigest.getInstance("SHA-256")
+    private fun getPackageInfo(packageName: String): PackageInfo? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getPackageInfo(
+                packageName,
+                PackageManager.PackageInfoFlags.of(0)
+            )
+        } else {
+            packageManager.getPackageInfo(packageName, 0)
+        }
+
+    private fun getApplicationInfo(packageName: String) =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getApplicationInfo(
+                packageName,
+                PackageManager.ApplicationInfoFlags.of(0)
+            )
+        } else {
+            packageManager.getApplicationInfo(packageName, 0)
+        }
+
+    private fun calculateApkSha256(file: File): String? {
+        return runCatching {
+            val digest = MessageDigest.getInstance(SHA_256)
             FileInputStream(file).use { fis ->
-                val buffer = ByteArray(8192)
+                val buffer = ByteArray(BUFFER_CAPACITY)
                 var bytesRead: Int
                 while (fis.read(buffer).also { bytesRead = it } != -1) {
                     digest.update(buffer, 0, bytesRead)
                 }
             }
             digest.digest().joinToString("") { "%02x".format(it) }
-        } catch (e: Exception) {
-            "Error calculating SHA-256: ${e.message}"
-        }
+        }.getOrNull()
+    }
+
+    private companion object {
+        private const val SHA_256 = "SHA-256"
+        private const val BUFFER_CAPACITY = 8192
     }
 }

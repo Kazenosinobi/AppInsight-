@@ -1,24 +1,24 @@
 package com.example.appinsight.utils
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import androidx.compose.foundation.clickable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 
-fun <T> debounce(delayMillis: Long,
-                 coroutineScope: CoroutineScope,
-                 useLastParam: Boolean,
-                 action: (T) -> Unit): (T) -> Unit {
-    var debounceJob: Job? = null
-    return { param: T ->
-        if (useLastParam) {
-            debounceJob?.cancel()
-        }
-        if (debounceJob?.isCompleted != false || useLastParam) {
-            debounceJob = coroutineScope.launch {
-                delay(delayMillis)
-                action(param)
-            }
+private const val DEF_DEB_MIL = 600L
+fun Modifier.clickableWithDebounce(
+    debounceTime: Long = DEF_DEB_MIL,
+    onClick: () -> Unit,
+): Modifier = composed {
+    var lastClickTime by remember { mutableLongStateOf(0L) }
+    clickable {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastClickTime >= debounceTime) {
+            lastClickTime = currentTime
+            onClick()
         }
     }
 }

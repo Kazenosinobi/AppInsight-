@@ -10,24 +10,32 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.appinsight.main.ui.theme.ProjectTheme
+import com.example.appinsight.core.ui.theme.ProjectTheme
 
 @Composable
-fun InfoRow(title: String, value: String) {
+fun InfoRow(
+    modifier: Modifier = Modifier,
+    title: String,
+    value: String,
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             modifier = Modifier.width(120.dp),
             text = title,
+            maxLines = 1,
             style = MaterialTheme.typography.bodyMedium,
         )
         Text(
             text = value,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyMedium,
         )
     }
@@ -35,7 +43,7 @@ fun InfoRow(title: String, value: String) {
 
 @Composable
 @Preview(showBackground = true)
-fun InfoRowPreview() {
+private fun InfoRowPreview() {
     ProjectTheme {
         InfoRow(
             title = "Title",

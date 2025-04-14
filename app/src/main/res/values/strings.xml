@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">AppInsight</string>
+    <string name="back_arrow">Back to apps list</string>
+    <string name="retry_button">Retry</string>
+    <string name="app_icon_description">App icon</string>
+    <string name="placeholder_description">Placeholder</string>
+    <string name="apps_screen_name">Apps list</string>
+    <string name="app_info_screen_name">App info</string>
+    <string name="apps_screen_error">Apps loading error!</string>
+    <string name="app_info_screen_error">App loading error!</string>
+    <string name="apps_screen_loading">Apps loading…</string>
+    <string name="app_info_screen_loading">App loading…</string>
+    <string name="package_name">Package name:</string>
+    <string name="version">Version:</string>
+    <string name="sha256">SHA256:</string>
+    <string name="cannot_launch">Cannot launch this application</string>
+    <string name="error_launching">Error launching app: %s</string>
+    <string name="launch_button_name">Launch Application</string>
 </resources>

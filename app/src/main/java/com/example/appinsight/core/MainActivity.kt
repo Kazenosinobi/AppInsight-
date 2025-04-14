@@ -1,24 +1,23 @@
-package com.example.appinsight.main.ui
+package com.example.appinsight.core
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.example.appinsight.R
+import com.example.appinsight.utils.isEdgeToEdgeNeedsToBeHandled
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        if (isEdgeToEdgeNeedsToBeHandled()) {
+            enableEdgeToEdge()
+            window.isNavigationBarContrastEnforced = false
         }
+
+        setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment

@@ -7,7 +7,7 @@ import com.example.appinsight.applicationInfo.domain.models.AppInfo
 class AppInfoInteractorImpl(
     private val repository: AppInfoRepository,
 ) : AppInfoInteractor {
-    override fun getAppInfo(packageName: String): AppInfo {
+    override fun getAppInfo(packageName: String): AppInfo? {
         return repository.getAppInfo(packageName)
     }
 

@@ -3,12 +3,13 @@ package com.example.appinsight.applicationInfo.ui.screens
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,51 +20,36 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.example.appinsight.R
 import com.example.appinsight.applicationInfo.domain.models.AppInfo
-import com.example.appinsight.main.ui.theme.ProjectTheme
+import com.example.appinsight.core.ui.theme.ProjectTheme
 
+@NonRestartableComposable
 @Composable
 fun AppInfoSuccess(
+    modifier: Modifier = Modifier,
     appInfo: AppInfo,
-    onClick: () -> Unit
 ) {
     val context = LocalContext.current
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .navigationBarsPadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable(onClick = onClick),
-                painter = painterResource(id = R.drawable.back),
-                contentDescription = "Back to apps list",
-                colorFilter = ColorFilter.tint(
-                    color = MaterialTheme.colorScheme.primary
-                )
-            )
-            Text(
-                text = "Apps list",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        Spacer(modifier = Modifier.height(8.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -72,13 +58,13 @@ fun AppInfoSuccess(
                 Image(
                     modifier = Modifier.size(64.dp),
                     bitmap = appInfo.icon.toBitmap().asImageBitmap(),
-                    contentDescription = "App icon",
+                    contentDescription = stringResource(R.string.app_icon_description),
                 )
             } else {
                 Image(
                     modifier = Modifier.size(64.dp),
                     painter = painterResource(id = R.drawable.placeholder),
-                    contentDescription = "Default app icon",
+                    contentDescription = stringResource(R.string.placeholder_description),
                     colorFilter = ColorFilter.tint(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -104,9 +90,9 @@ fun AppInfoSuccess(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                InfoRow(title = "Package name:", value = appInfo.packageName)
-                InfoRow(title = "Version:", value = appInfo.version)
-                InfoRow(title = "SHA256:", value = appInfo.sha256.take(32) + "...")
+                InfoRow(title = stringResource(R.string.package_name), value = appInfo.packageName)
+                InfoRow(title = stringResource(R.string.version), value = appInfo.version)
+                InfoRow(title = stringResource(R.string.sha256), value = appInfo.sha256)
             }
         }
 
@@ -123,12 +109,16 @@ fun AppInfoSuccess(
                     } else {
                         Toast.makeText(
                             context,
-                            "Cannot launch this application",
+                            context.getString(R.string.cannot_launch),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Error launching app: ${e.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.error_launching, e.message),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             },
@@ -138,7 +128,7 @@ fun AppInfoSuccess(
             )
         ) {
             Text(
-                text = "Launch Application",
+                text = stringResource(R.string.launch_button_name),
                 style = MaterialTheme.typography.displaySmall
             )
         }
@@ -147,7 +137,7 @@ fun AppInfoSuccess(
 
 @Composable
 @Preview(showBackground = true)
-fun AppInfoSuccessPreview() {
+private fun AppInfoSuccessPreview() {
     ProjectTheme {
         AppInfoSuccess(
             appInfo = AppInfo(
@@ -156,14 +146,13 @@ fun AppInfoSuccessPreview() {
                 version = "1.0.123",
                 sha256 = "124891092847271457657468334836862",
             ),
-            onClick = {}
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun AppInfoSuccessPreviewDark() {
+private fun AppInfoSuccessPreviewDark() {
     ProjectTheme {
         AppInfoSuccess(
             appInfo = AppInfo(
@@ -172,7 +161,6 @@ fun AppInfoSuccessPreviewDark() {
                 version = "1.0.123",
                 sha256 = "124891092847271457657468334836862",
             ),
-            onClick = {}
         )
     }
 }

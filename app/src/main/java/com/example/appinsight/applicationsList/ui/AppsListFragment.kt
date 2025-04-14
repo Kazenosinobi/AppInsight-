@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.appinsight.applicationsList.ui.screens.AppsListScreen
-import com.example.appinsight.main.ui.theme.ProjectTheme
+import com.example.appinsight.core.ui.theme.ProjectTheme
 
 class AppsListFragment : Fragment() {
     override fun onCreateView(
@@ -22,7 +22,7 @@ class AppsListFragment : Fragment() {
             setContent {
                 ProjectTheme {
                     val navController = findNavController()
-                    AppsListScreen(navController)
+                    AppsListScreen(navController = navController)
                 }
             }
         }

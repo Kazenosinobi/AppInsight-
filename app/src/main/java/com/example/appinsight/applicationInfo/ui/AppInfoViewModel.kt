@@ -13,17 +13,16 @@ class AppInfoViewModel(
     private val packageName: String,
 ) : ViewModel() {
     private val appInfoState: MutableStateFlow<AppInfoState> = MutableStateFlow(AppInfoState.Init)
+
     fun getAppInfoState() = appInfoState.asStateFlow()
 
     fun loadAppInfo() {
         viewModelScope.launch {
             appInfoState.emit(AppInfoState.Loading)
-            try {
-                val appInfo = interactor.getAppInfo(packageName)
-                appInfoState.emit(AppInfoState.Success(appInfo))
-            } catch (e: Exception) {
-                appInfoState.emit(AppInfoState.Error)
-            }
+            val appInfo = interactor.getAppInfo(packageName)
+            appInfo?.let {
+                appInfoState.emit(AppInfoState.Success(it))
+            } ?: appInfoState.emit(AppInfoState.Error)
         }
     }
 }

@@ -10,7 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.appinsight.applicationInfo.ui.screens.AppInfoScreen
-import com.example.appinsight.main.ui.theme.ProjectTheme
+import com.example.appinsight.core.ui.theme.ProjectTheme
 
 class AppInfoFragment : Fragment() {
     override fun onCreateView(
@@ -24,7 +24,7 @@ class AppInfoFragment : Fragment() {
                 ProjectTheme {
                     val navController = findNavController()
                     val packageName = arguments?.getString(EXTRA_PACKAGE_NAME).orEmpty()
-                    AppInfoScreen(packageName, navController)
+                    AppInfoScreen(packageName = packageName, navController = navController)
                 }
             }
         }

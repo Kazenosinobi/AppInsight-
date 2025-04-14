@@ -1,4 +1,4 @@
-package com.example.appinsight.main.ui.theme
+package com.example.appinsight.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
